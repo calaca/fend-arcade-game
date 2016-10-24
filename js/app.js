@@ -5,9 +5,9 @@
 // Initial X and Y coordinates for the player
 var INITIAL_X = 202;
 var INITIAL_Y = 415;
-var COLLIDED = 50;
-var speeds   = [310, 300, 210];
-var score    = 0;
+var COLLIDED  = 50;
+var speeds    = [310, 300, 210];
+var score     = 0;
 
 // =============================================================================
 
