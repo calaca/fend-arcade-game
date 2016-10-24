@@ -7,9 +7,9 @@ Catgirl is not like those cats that hate water, she wants to cross the stoned pa
 get Catgirl to the water and you **win** the game.   
 But beware the bugs! They are Catgirl's mortal enemies and you can't touch them at all or you **lose**!  
 
-So, to sum it up:
-1. Get to the water
-2. Don't touch the bugs
+So, to sum it up:  
+1. Get to the water  
+2. Don't touch the bugs  
 
 ## Getting Started
 **Click [here](http://calaca.github.io/fend-arcade-game) to play the game.**  
