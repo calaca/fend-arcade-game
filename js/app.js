@@ -1,97 +1,97 @@
-// This file implements the Enemy and Player classes
+// Global variables
+const INITIAL_X = 202; // Initial X coordinate for the player
+const INITIAL_Y = 415; // Initial Y coordinate for the player
+const COLLIDED  = 50; // Collision measurement
+const speeds = [300, 230, 400]; // Initial speeds
+let score = 0; // Initial score
 
-// =============================================================================
+// Common parent for Enemies and Player
+class Element {
+  constructor(x, y, sprite) {
+    this.x = x;
+    this.y = y;
+    this.sprite = sprite;
+  }
 
-// Initial X and Y coordinates for the player
-var INITIAL_X = 202;
-var INITIAL_Y = 415;
-var COLLIDED  = 50;
-var speeds    = [310, 300, 210];
-var score     = 0;
-
-// =============================================================================
+  // Draw game elements on the screen
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+}
 
 // Enemy
-var Enemy = function(x, y) {
-  this.sprite = 'images/enemy-bug.png';
-  this.speed  = speeds[Math.floor(Math.random() * speeds.length)];
-  this.x      = x;
-  this.y      = y;
-};
-
-// Updates enemies' position
-Enemy.prototype.update = function(dt) {
-  // Moviment is multiplied by 'dt' so it will ensure the game runs at the same speed for all computers
-  this.x += this.speed * dt;
-  // Canvas width is set to 505 (see engine.js line 28), therefore when the player reaches this point, or further, they will be set back to point 0 on the x-axis
-  if (this.x >= 505) {
-    this.x = 0;
+class Enemy extends Element {
+  constructor(x, y, sprite = 'images/enemy-bug.png') {
+    super(x, y, sprite);
+    this.x = x;
+    this.y = y;
+    this.sprite = sprite;
+    this.speed = speeds[Math.floor(Math.random() * speeds.length)];
   }
-};
 
-// Draw the enemy on the screen
-Enemy.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// =============================================================================
+  update(dt) {
+    // Movement is multiplied by 'dt' so it will ensure the game runs at the same speed for all computers
+    this.x += this.speed * dt;
+    // Canvas width is set to 505 (see engine.js line 28), therefore when the enemy reaches this point, or further, they will be set back to point 0 on the x-axis
+    if (this.x >= 505) {
+      this.x = 0;
+    }
+  }
+}
 
 // Player
-var Player = function(x, y) {
-  this.sprite = 'images/char-cat-girl.png';
-  this.x      = x;
-  this.y      = y;
-};
-
-// The player's position will de updated when they reach water
-Player.prototype.update = function(dt) {
-  if (this.y <= 0) {
-    this.reset(INITIAL_X, INITIAL_Y);
-    alertify.alert('You win!', 'Congratulations!<br>You got Catgirl to the water!');
-    score += 1;
-    $('#score').text(score);
+class Player extends Element {
+  constructor(x, y, sprite = 'images/char-cat-girl.png') {
+    super(x, y, sprite);
+    this.x = x;
+    this.y = y;
+    this.sprite = sprite;
   }
-};
 
-// Draw the player on the screen
-Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// Handles key input recieved by the player:
-// (1) Walks one square when left key, right key, up key or down key is pressed
-// (2) Does not let player wander off canvas
-Player.prototype.handleInput = function(key) {
-  if (key === 'left' && this.x > 0) {
-    this.x -= 101;
-  } else if (key === 'right' && this.x < 400) {
-    this.x += 101;
-  } else if (key === 'up' && this.y > 0) {
-    this.y -= 93;
-  } else if (key === 'down' && this.y < 400) {
-    this.y += 93;
+  // Gets the player back to the initial position
+  reset(x, y) {
+    this.x = x;
+    this.y = y;
   }
-};
 
-// Resets player position to bottom middle of the canvas
-Player.prototype.reset = function(x, y) {
-  this.x = x;
-  this.y = y;
-};
+  // The player wins the game when they reach the water
+  update() {
+    // Water reached?
+    if (this.y <= 0) {
+      this.reset(INITIAL_X, INITIAL_Y); // Go back to the start
+      alertify.alert('You win!', 'Congratulations!<br>You got Catgirl to the water!');
+      score += 1; // Score goes up
+      $('#score').text(score);
+    }
+  }
 
-// =============================================================================
+  /**
+   * Handles key input received by the player:
+   * 1. Walks one square when left key, right key, up key or down key is pressed
+   * 2. Does not let player wander off canvas
+   */
+  handleInput(key) {
+    if (key === 'left' && this.x > 0) {
+      this.x -= 101;
+    } else if (key === 'right' && this.x < 400) {
+      this.x += 101;
+    } else if (key === 'up' && this.y > 0) {
+      this.y -= 93;
+    } else if (key === 'down' && this.y < 400) {
+      this.y += 93;
+    }
+  }
+}
 
-// Instantiating all enemies and the player
-
-var allEnemies = [
+// Instantiating all enemies
+const allEnemies = [
   new Enemy(0, 60),
   new Enemy(202, 145),
   new Enemy(404, 230)
 ];
 
-var player = new Player(INITIAL_X, INITIAL_Y);
-
-// =============================================================================
+// Instantiating the player
+const player = new Player(INITIAL_X, INITIAL_Y);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -105,7 +105,12 @@ document.addEventListener('keyup', function(e) {
   player.handleInput(allowedKeys[e.keyCode]);
 });
 
-// Checks if the player COLLIDED with an enemy, resets score back to zero, shows the player an alert informing what happened, then resets player's position back to the start
+/**
+ * 1. Checks if the player collided with an enemy
+ * 2. Resets score back to zero
+ * 3. Shows the player an alert informing that a collision happened
+ * 4. Resets player's position back to the start
+ */
 function checkCollisions(allEnemies, player) {
   for(i = 0; i < allEnemies.length; i++) {
     if ((player.y >= allEnemies[i].y - COLLIDED && player.y <= allEnemies[i].y + COLLIDED) && (player.x >= allEnemies[i].x - COLLIDED && player.x <= allEnemies[i].x + COLLIDED)) {
