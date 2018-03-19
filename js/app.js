@@ -96,7 +96,7 @@ const player = new Player(INITIAL_X, INITIAL_Y);
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-  var allowedKeys = {
+  const allowedKeys = {
     37: 'left',
     38: 'up',
     39: 'right',
@@ -112,8 +112,8 @@ document.addEventListener('keyup', function(e) {
  * 4. Resets player's position back to the start
  */
 function checkCollisions(allEnemies, player) {
-  for(i = 0; i < allEnemies.length; i++) {
-    if ((player.y >= allEnemies[i].y - COLLIDED && player.y <= allEnemies[i].y + COLLIDED) && (player.x >= allEnemies[i].x - COLLIDED && player.x <= allEnemies[i].x + COLLIDED)) {
+  for (enemy of allEnemies) {
+    if ((player.y >= enemy.y - COLLIDED && player.y <= enemy.y + COLLIDED) && (player.x >= enemy.x - COLLIDED && player.x <= enemy.x + COLLIDED)) {
       alertify.alert('Collision detected!', 'Oops, looks like Catgirl just hit a bug!<br>Your score is <strong>reset</strong> and you go back to the start!');
       score = 0;
       $('#score').text(score);
