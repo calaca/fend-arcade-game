@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url(https://fonts.googleapis.com/css?family=Roboto+Mono);
 
 body {
   text-align: center;
@@ -10,5 +10,5 @@ h1 {
   font-size: 20px;
   margin: 0;
   color: #6e6e6e;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
 }
