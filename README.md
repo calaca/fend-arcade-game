@@ -12,10 +12,11 @@ So, to sum it up:
 2. Don't touch the bugs  
 
 ## Getting Started
-**Click [here](http://calaca.github.io/fend-arcade-game) to play the game.**  
-Or, if you want to play it locally on your computer, you can either download the files from this repository or clone them.
-* **Download:** Click the "Clone or download" button then click "Download ZIP" and soon you'll get a zip file when your download finishes. Unzip the file, open the index.html file on your browser of choice and that's it!
-* **Clone:** Type into your terminal or command prompt the following:  
+**Click [here](http://calaca.github.io/fend-arcade-game) to play the game.**
+
+Or, if you want to play it locally on your computer, you can either download the files from this repository or clone them:
+- **Download:** Click the "Clone or download" button then click "Download ZIP" and soon you'll get a zip file when your download finishes. Unzip the file, open the index.html file on your browser of choice and that's it!
+- **Clone:** Type into your terminal or command prompt the following:  
 `$ git clone https://github.com/calaca/fend-arcade-game.git`  
 When it finishes cloning the files, open the index.html file on your browser of choice and that's it!
 
