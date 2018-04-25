@@ -1,7 +1,7 @@
 // Global variables
 const INITIAL_X = 202; // Initial X coordinate for the player
 const INITIAL_Y = 415; // Initial Y coordinate for the player
-const COLLIDED  = 50; // Collision measurement
+const COLLIDED  = 50; // Collision measurement - interval of 50 points for each side that will count as a collision
 const speeds = [300, 230, 400]; // Initial speeds
 let score = 0; // Initial score
 
@@ -23,9 +23,6 @@ class Element {
 class Enemy extends Element {
   constructor(x, y, sprite = 'images/enemy-bug.png') {
     super(x, y, sprite);
-    this.x = x;
-    this.y = y;
-    this.sprite = sprite;
     this.speed = speeds[Math.floor(Math.random() * speeds.length)];
   }
 
@@ -43,9 +40,6 @@ class Enemy extends Element {
 class Player extends Element {
   constructor(x, y, sprite = 'images/char-cat-girl.png') {
     super(x, y, sprite);
-    this.x = x;
-    this.y = y;
-    this.sprite = sprite;
   }
 
   // Gets the player back to the initial position
@@ -114,6 +108,13 @@ document.addEventListener('keyup', function(e) {
 function checkCollisions(allEnemies, player) {
   for (enemy of allEnemies) {
     if ((player.y >= enemy.y - COLLIDED && player.y <= enemy.y + COLLIDED) && (player.x >= enemy.x - COLLIDED && player.x <= enemy.x + COLLIDED)) {
+      // Without the collision interval, player and enemy will never share the same coordinates, so there is a need to calculate an area around the player that would count as a collision
+      // console.log('Player y = ', player.y);
+      // console.log('Player x = ', player.x);
+      // console.log('Enemy y = ', enemy.y);
+      // console.log('Enemy x = ', enemy.x);
+      // console.log('enemy.y - COLLIDED = ', enemy.y - COLLIDED);
+      // console.log('enemy.y + COLLIDED', enemy.y + COLLIDED);
       alertify.alert('Collision detected!', 'Oops, looks like Catgirl just hit a bug!<br>Your score is <strong>reset</strong> and you go back to the start!');
       score = 0;
       $('#score').text(score);
